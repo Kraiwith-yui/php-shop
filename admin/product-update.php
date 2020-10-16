@@ -56,7 +56,7 @@ if (isset($_POST['submit'])) {
             </div>
             <div class="form-group">
                 <label for="">Product Description</label>
-                <textarea name="desc" id="" rows="3" class="form-control"> <?php echo $product["Product_description"]; ?> </textarea>
+                <textarea name="desc" id="" rows="3" class="form-control"> <?php echo $product["Product_desc"]; ?> </textarea>
             </div>
             <div class="form-group">
                 <label for="">Product Price</label>
