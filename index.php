@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namploy Shop</title>
+    <link rel="icon" href="assets/logo.ico" type="image/ico">
 
     <?php include_once('./assets/styles.html'); ?>
 </head>

@@ -19,10 +19,10 @@ if (isset($_POST['submit'])) {
     $result = $productFn->productUpdate($id, $name, $desc, $price);
     echo $result;
     if ($result) {
-        header("location: ../admin/");
+        header("location: ./");
     } else {
         echo "<script>window.alert('Update Data Failed!!!. Try again later.');</script>";
-        echo "<script>window.location.href='../admin/';</script>";
+        echo "<script>window.location.href='./';</script>";
     }
 }
 
@@ -35,6 +35,7 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namploy Shop</title>
+    <link rel="icon" href="../assets/logo.ico" type="image/ico">
 
     <?php include_once('../assets/styles.html'); ?>
 </head>
@@ -42,31 +43,41 @@ if (isset($_POST['submit'])) {
 <body>
     <div class="container mt-3">
         <div class="form-inline">
-            <h5> <i class="fas fa-edit"></i> แก้ไขรายการสินค้า</h5>
+            <h5> <i class="fas fa-edit"></i> แก้ไขข้อมูลสินค้า</h5>
         </div>
         <form method="POST">
             <div class="form-group sr-only" hidden>
-                <label for="">Product Id</label>
-                <input type="text" name="id" class="form-control" placeholder="" require <?php echo "value='" . $product["Product_id"] . "'"; ?>>
+                <label for="">รหัสสินค้า</label>
+                <input type="text" name="id" class="form-control" placeholder="" required <?php echo "value='" . $product["Product_id"] . "'"; ?>>
             </div>
-
-            <div class="form-group">
-                <label for="">Product Name</label>
-                <input type="text" name="name" class="form-control" placeholder="" require <?php echo "value='" . $product["Product_name"] . "'"; ?>>
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">ชื่อสินค้า</label>
+                        <input type="text" name="name" class="form-control" placeholder="" required <?php echo "value='" . $product["Product_name"] . "'"; ?>>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-group">
+                        <label for="">ราคาสินค้า</label>
+                        <div class="input-group">
+                            <input type="number" name="price" class="form-control" placeholder="0" min="0" max="9999999" required <?php echo "value='" . $product["Product_price"] . "'"; ?>>
+                            <div class="input-group-append">
+                                <div class="input-group-text">บาท</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label for="">Product Description</label>
-                <textarea name="desc" id="" rows="3" class="form-control"> <?php echo $product["Product_desc"]; ?> </textarea>
-            </div>
-            <div class="form-group">
-                <label for="">Product Price</label>
-                <input type="number" name="price" class="form-control" placeholder="0" require <?php echo "value='" . $product["Product_price"] . "'"; ?>>
+                <label for="">รายละเอียดสินค้า</label>
+                <textarea name="desc" id="" rows="3" class="form-control"><?php echo $product["Product_description"]; ?></textarea>
             </div>
             <div class="form-group form-inline">
-                <a href="../admin/" class="mr-auto">
+                <a href="./" class="mr-auto">
                     <button type="button" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> ย้อนกลับ </button> </a>
 
-                <button type="submit" name="submit" class="btn btn-warning"> <i class="fas fa-save"></i> UPDATE </button>
+                <button type="submit" name="submit" class="btn btn-warning"> <i class="fas fa-save"></i> แก้ไข </button>
             </div>
         </form>
     </div>
