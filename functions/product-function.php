@@ -33,4 +33,10 @@ class productFunction extends connectDB
         $sql = "SELECT * FROM tb_product ORDER BY Product_id DESC";
         return $this->conn->query($sql)->fetch_assoc();
     }
+
+    public function productDelete($id)
+    {
+        $sql = "DELETE FROM tb_product WHERE Product_id='$id'";
+        return $this->conn->query($sql);
+    }
 }
