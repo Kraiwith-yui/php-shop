@@ -1,4 +1,5 @@
 USE db_npshop;
+
 CREATE TABLE tb_picture(
     Picture_id INT(11) PRIMARY KEY AUTO_INCREMENT,
     Picture_name VARCHAR(50) NOT NULL,
@@ -7,16 +8,12 @@ CREATE TABLE tb_picture(
 );
 
 USE db_npshop;
-INSERT INTO tb_picture(
-    Picture_name, Product_id
-) VALUES (
-    'image.jpg', 1
-), (
-    'image.jpg', 1
-), (
-    'image.jpg', 1
-), (
-    'image.jpg', 2
-), (
-    'image2.jpg', 3
-);
+
+INSERT INTO
+    tb_picture(Picture_name, Product_id)
+VALUES
+    ('image.jpg', 1),
+    ('image.jpg', 1),
+    ('image.jpg', 1),
+    ('image.jpg', 2),
+    ('image2.jpg', 3);
