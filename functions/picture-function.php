@@ -27,4 +27,10 @@ class pictureFunction extends connectDB
         $sql = "DELETE FROM tb_picture WHERE Picture_id='$id'";
         return $this->conn->query($sql);
     }
+
+    public function pictureGetById($id)
+    {
+        $sql = "SELECT * FROM tb_picture WHERE Picture_id='$id'";
+        return $this->conn->query($sql);
+    }
 }

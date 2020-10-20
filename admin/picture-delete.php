@@ -9,6 +9,11 @@ parse_str($parts['query'], $query);
 $pictureId = $query['pictureId'];
 $productId = $query['productId'];
 
+// remove file in folder "uploads"
+$picture = $pictureFn->pictureGetById($pictureId)->fetch_assoc();
+$file_to_delete = '../uploads/' . $picture['Picture_name'];
+unlink($file_to_delete);
+
 $result = $pictureFn->pictureDelete($pictureId);
 if ($result) {
     echo "<script>window.location.href='./product-picture.php?pId=$productId'</script>";
