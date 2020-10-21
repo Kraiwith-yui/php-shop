@@ -1,31 +1,45 @@
 <?php
 
+$member = null;
+if (isset($_SESSION['Member'])) {
+    $member = $_SESSION['Member'];
+}
 
 ?>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand p-0" href="./"> <img src="assets/logo.png" alt="" width="50px"> </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="login.php">
-                        เข้าสู่ระบบ </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="register.php">
-                        สมัครสมาชิก </a>
-                </li>
-            </ul>
+            <?php if (!isset($member)) { ?>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login.php"> เข้าสู่ระบบ </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="register.php"> สมัครสมาชิก </a>
+                    </li>
+                </ul>
+            <?php } else { ?>
+                <div class="btn-group ml-auto">
+                    <a class="dropdown-toggle text-light text-capitalize" data-toggle="dropdown"> <?php echo $member['Member_fullname'] ?> </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="profile.php"> <i class="fas fa-user fa-fw"></i> Profile </a>
+                        <a class="dropdown-item" href="order.php"> <i class="fas fa-clipboard-list fa-fw"></i> Orders </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="logout.php"> <i class="fas fa-power-off fa-fw"></i> Logout </a>
+                    </div>
+                </div>
+            <?php } ?>
         </div>
     </div>
 </nav>

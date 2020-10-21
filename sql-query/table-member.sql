@@ -21,7 +21,8 @@ INSERT INTO
         Member_gender,
         Member_idcard,
         Member_address,
-        Member_age
+        Member_age,
+        Member_email
     )
 VALUES
     (
@@ -31,5 +32,6 @@ VALUES
         'ชาย',
         '1234567890123',
         '54 mo 5 ban khokklang district.lumpuk area.khamkhuankeao province.yasothon',
-        26
+        26,
+        'kk@kk.com'
     );

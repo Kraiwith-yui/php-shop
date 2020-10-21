@@ -1,8 +1,7 @@
 <?php
+
 session_start();
-if (isset($_SESSION['Member'])) {
-    $member = $_SESSION['Member'];
-}
+
 ?>
 
 <!DOCTYPE html>
@@ -11,25 +10,16 @@ if (isset($_SESSION['Member'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="./">
     <title>Namploy Shop</title>
-    <link rel="icon" href="assets/logo.ico" type="image/ico">
+    <link rel="icon" href="./assets/logo.ico" type="image/ico">
 
-    <?php include_once('assets/styles.html'); ?>
+    <?php include_once('./assets/styles.html'); ?>
 </head>
 
 <body>
-    <?php include_once('components/navbar.php'); ?>
+    <?php include_once('./components/navbar.php'); ?>
 
-    <div class="container py-3">
-        <?php if (isset($_SESSION['newLogin'])) {
-            $_SESSION['newLogin'] = null;
-        ?>
-            <div class="alert-success p-3 mb-3">
-                <h3 class="m-0">Welcome <?php echo $member['Member_fullname']; ?></h3>
-            </div>
-        <?php } ?>
-
+    <div class="container">
         <p>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates placeat accusantium esse exercitationem
             ipsa a soluta sed veritatis quas cupiditate ut quam adipisci sunt quaerat, excepturi, facere odit libero
@@ -48,7 +38,7 @@ if (isset($_SESSION['Member'])) {
         </p>
     </div>
 
-    <?php include_once('assets/scripts.html'); ?>
+    <?php include_once('./assets/scripts.html'); ?>
 </body>
 
 </html>
