@@ -17,7 +17,7 @@ if (isset($_SESSION['Member'])) {
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="./">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="./">หน้าหลัก <span class="sr-only">(current)</span></a>
                 </li>
             </ul>
             <?php if (!isset($member)) { ?>
@@ -33,10 +33,10 @@ if (isset($_SESSION['Member'])) {
                 <div class="btn-group ml-auto">
                     <a class="dropdown-toggle text-light text-capitalize" data-toggle="dropdown"> <?php echo $member['Member_fullname'] ?> </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="profile.php"> <i class="fas fa-user fa-fw"></i> Profile </a>
-                        <a class="dropdown-item" href="order.php"> <i class="fas fa-clipboard-list fa-fw"></i> Orders </a>
+                        <a class="dropdown-item" href="member-detail.php"> <i class="fas fa-user fa-fw"></i> ข้อมูลสมาชิก </a>
+                        <a class="dropdown-item" href="order.php"> <i class="fas fa-clipboard-list fa-fw"></i> คำสั่งซื้อ </a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-danger" href="logout.php"> <i class="fas fa-power-off fa-fw"></i> Logout </a>
+                        <a class="dropdown-item text-danger" href="logout.php"> <i class="fas fa-power-off fa-fw"></i> ออกจากระบบ </a>
                     </div>
                 </div>
             <?php } ?>

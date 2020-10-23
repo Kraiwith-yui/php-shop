@@ -109,7 +109,7 @@ if (isset($_POST['submit'])) {
                             </div>
                             <div class="form-group">
                                 <label for="tel"> <i class="fas fa-fw fa-phone-alt text-info text-left"></i> <small class="text-muted">เบอร์โทร</small> </label>
-                                <input type="text" id="tel" name="phone" class="form-control" required maxlength="30" <?php echo $member['Member_phone'] ?>>
+                                <input type="text" id="tel" name="phone" class="form-control" required maxlength="30" value="<?php echo $member['Member_phone'] ?>">
                             </div>
                             <div class="form-group">
                                 <div class="text-right">
