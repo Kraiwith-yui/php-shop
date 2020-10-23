@@ -13,7 +13,7 @@ $orderFn = new orderFunction();
 $productFn = new productFunction();
 $pictureFn = new pictureFunction();
 
-$orders = $orderFn->getByMemberId($member['Member_id']);
+$orders = $orderFn->getOrderByMemberId($member['Member_id']);
 
 ?>
 
@@ -27,6 +27,14 @@ $orders = $orderFn->getByMemberId($member['Member_id']);
     <link rel="icon" href="assets/logo.ico" type="image/ico">
 
     <?php include_once('./assets/styles.html'); ?>
+    <style>
+        .product-img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            margin-right: 0.5rem;
+        }
+    </style>
 </head>
 
 <body>
@@ -39,7 +47,7 @@ $orders = $orderFn->getByMemberId($member['Member_id']);
                 <tr>
                     <th>รหัสใบสั่งซื้อ</th>
                     <th width="20%">สินค้า</th>
-                    <th>ราคา</th>
+                    <th>ราคารวม</th>
                     <th>จำนวน</th>
                     <th width="30%">ที่อยู่</th>
                     <th>เบอร์โทร</th>
@@ -49,11 +57,15 @@ $orders = $orderFn->getByMemberId($member['Member_id']);
                 <?php
                 while ($order = $orders->fetch_assoc()) {
                     $product = $productFn->productGetById($order['Product_id'])->fetch_assoc();
+                    $picture = $pictureFn->pictureGetByProductId($order['Product_id'])->fetch_assoc();
                 ?>
                     <tr>
                         <td class="text-center"> <?php echo $order['Order_id']; ?> </td>
-                        <td> <?php echo $product['Product_name']; ?> </td>
-                        <td class="text-right"> <?php echo "฿".number_format($order['Order_price']); ?> </td>
+                        <td>
+                            <img class="product-img" src="<?php echo "uploads/" . $picture['Picture_name']; ?>" alt="">
+                            <?php echo $product['Product_name']; ?>
+                        </td>
+                        <td class="text-right"> <?php echo "฿" . number_format($order['Order_price']); ?> </td>
                         <td class="text-right"> <?php echo number_format($order['Order_amount']); ?> </td>
                         <td> <?php echo $order['Order_address']; ?> </td>
                         <td> <?php echo $order['Order_phone']; ?> </td>

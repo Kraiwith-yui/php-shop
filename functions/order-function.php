@@ -11,9 +11,15 @@ class orderFunction extends connectDB
         return $this->conn->query($sql);
     }
 
-    function getByMemberId($memId)
+    function getOrderByMemberId($memId)
     {
         $sql = "SELECT * FROM tb_order WHERE Member_id='$memId'";
+        return $this->conn->query($sql);
+    }
+
+    function getOrderAll()
+    {
+        $sql = "SELECT * FROM tb_order";
         return $this->conn->query($sql);
     }
 }
