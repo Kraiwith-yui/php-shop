@@ -41,7 +41,15 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
     <?php include_once('./components/navbar.php'); ?>
 
     <div class="container pt-3 pb-5">
-        <h3>รายการสั่งซื้อ</h3>
+        <div class="form-inline mb-3">
+            <h3>รายการสั่งซื้อ</h3>
+
+            <div class="ml-auto">
+                ติดต่อผู้แล
+                <a href="https://line.me/ti/p/~namploy_22" class="ml-2" target="_blank">
+                    <img src="assets/line@.jpg" alt="" width="60" height="60"> </a>
+            </div>
+        </div>
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -51,6 +59,7 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
                     <th>จำนวน</th>
                     <th width="30%">ที่อยู่</th>
                     <th>เบอร์โทร</th>
+                    <th>สถานะ</th>
                 </tr>
             </thead>
             <tbody>
@@ -69,6 +78,13 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
                         <td class="text-right"> <?php echo number_format($order['Order_amount']); ?> </td>
                         <td> <?php echo $order['Order_address']; ?> </td>
                         <td> <?php echo $order['Order_phone']; ?> </td>
+                        <td class="text-center">
+                            <?php if ($order['Order_status'] == 'waiting') { ?>
+                                <span class="text-warning"> รอยืนยันการโอน </span>
+                            <?php } else if ($order['Order_status'] == 'success') { ?>
+                                <span class="text-success"> สำเร็จ </span>
+                            <?php } ?>
+                        </td>
                     </tr>
                 <?php } ?>
             </tbody>

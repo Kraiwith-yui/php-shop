@@ -3,9 +3,9 @@ USE db_npshop;
 CREATE TABLE tb_member(
     Member_id int(11) PRIMARY KEY AUTO_INCREMENT,
     Member_username VARCHAR(20) NOT NULL,
-    Member_password VARCHAR(20) NOT NULL,
+    Member_password VARCHAR(255) NOT NULL,
     Member_fullname VARCHAR(50) NOT NULL,
-    Member_gender VARCHAR(3),
+    Member_gender VARCHAR(4),
     Member_idcard VARCHAR(13),
     Member_address VARCHAR(100),
     Member_phone VARCHAR(20),

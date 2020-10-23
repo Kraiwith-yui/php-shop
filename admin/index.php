@@ -9,6 +9,16 @@ if ($member['Member_role'] != 'Admin') {
     return header('location: ../');
 }
 
+$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$parts = parse_url($actual_link);
+$tabActive = 'product';
+if (isset($parts['query'])) {
+    parse_str($parts['query'], $query);
+    if (isset($query['tab'])) {
+        $tabActive = $query['tab'];
+    }
+}
+
 include_once("../functions/product-function.php");
 include_once("../functions/picture-function.php");
 include_once("../functions/order-function.php");
@@ -40,6 +50,7 @@ $orders = $orderFn->getOrderAll();
             object-fit: contain;
             border: 1px solid #ccc;
         }
+
         .order-img {
             width: 50px;
             height: 50px;
@@ -53,14 +64,14 @@ $orders = $orderFn->getOrderAll();
     <div class="container my-3">
         <ul class="nav nav-tabs mb-3">
             <li class="nav-item">
-                <a class="nav-link active" id="product-tab" onclick="changeTab(this)">รายการสินค้า</a>
+                <a class="nav-link <?php echo $tabActive == 'product' ? 'active' : '' ?>" id="product-tab" onclick="changeTab(this)">รายการสินค้า</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="order-tab" onclick="changeTab(this)">รายการใบสั่งซื้อ</a>
+                <a class="nav-link <?php echo $tabActive == 'product' ? '' : 'active' ?>" id="order-tab" onclick="changeTab(this)">รายการใบสั่งซื้อ</a>
             </li>
         </ul>
 
-        <div class="d-block" id="product-show">
+        <div id="product-show" class="<?php echo $tabActive == 'product' ? 'd-block' : 'd-none' ?>">
             <div class="form-inline mb-3">
                 <h3>รายการสินค้า</h3>
 
@@ -124,7 +135,7 @@ $orders = $orderFn->getOrderAll();
             </table>
         </div>
 
-        <div class="d-none" id="order-show">
+        <div id="order-show" class="<?php echo $tabActive == 'product' ? 'd-none' : 'd-block' ?>">
             <div class="form-inline mb-3">
                 <h3>รายการใบสั่งซื้อ</h3>
             </div>
@@ -138,6 +149,7 @@ $orders = $orderFn->getOrderAll();
                         <th>จำนวน</th>
                         <th width="30%">ที่อยู่</th>
                         <th>เบอร์โทร</th>
+                        <th>สถานะ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -156,6 +168,14 @@ $orders = $orderFn->getOrderAll();
                             <td class="text-right"> <?php echo number_format($order['Order_amount']); ?> </td>
                             <td> <?php echo $order['Order_address']; ?> </td>
                             <td> <?php echo $order['Order_phone']; ?> </td>
+                            <td class="text-center">
+                                <?php if ($order['Order_status'] == 'waiting') { ?>
+                                    <a href="order-success.php?oId=<?php echo $order['Order_id']; ?>" class="btn btn-warning">
+                                        <i class="fas fa-file-invoice-dollar"></i> ยืนยันการโอน </a>
+                                <?php } else if ($order['Order_status'] == 'success') { ?>
+                                    <span class="text-success"> สำเร็จ </span>
+                                <?php } ?>
+                            </td>
                         </tr>
                     <?php } ?>
                 </tbody>
