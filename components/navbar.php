@@ -7,7 +7,7 @@ if (isset($_SESSION['Member'])) {
 
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
     <div class="container">
         <a class="navbar-brand p-0" href="./"> <img src="assets/logo.png" alt="" width="50px"> </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar">

@@ -1,5 +1,14 @@
 <?php
 session_start();
+
+include_once('functions/product-function.php');
+include_once('functions/picture-function.php');
+
+$productFn = new productFunction();
+$pictureFn = new pictureFunction();
+
+$products = $productFn->productGetAll();
+
 if (isset($_SESSION['Member'])) {
     $member = $_SESSION['Member'];
 }
@@ -16,36 +25,72 @@ if (isset($_SESSION['Member'])) {
     <link rel="icon" href="assets/logo.ico" type="image/ico">
 
     <?php include_once('assets/styles.html'); ?>
+    <style>
+        a.card-link {
+            color: #000 !important;
+            display: block;
+        }
+
+        .product-card {
+            transition: 0.2s all ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: scale(1.02);
+        }
+
+        .product-img {
+            height: 250px;
+            border-bottom: 1px solid #eeeeee;
+            object-fit: cover;
+        }
+
+        .product-card .card-body {
+            height: 140px;
+        }
+    </style>
 </head>
 
 <body>
     <?php include_once('components/navbar.php'); ?>
 
-    <div class="container py-3">
+    <div class="container py-5">
         <?php if (isset($_SESSION['newLogin'])) {
             $_SESSION['newLogin'] = null;
         ?>
             <div class="alert-success p-3 mb-3">
-                <h3 class="m-0">Welcome <?php echo $member['Member_fullname']; ?></h3>
+                <h3 class="m-0 text-capitalize">Welcome <?php echo $member['Member_fullname'] . "."; ?></h3>
             </div>
         <?php } ?>
 
-        <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates placeat accusantium esse exercitationem
-            ipsa a soluta sed veritatis quas cupiditate ut quam adipisci sunt quaerat, excepturi, facere odit libero
-            inventore. Assumenda quam asperiores iure velit, nihil maiores vero veniam beatae! Obcaecati culpa hic repellat
-            rem optio, tempora, nihil error a neque quos officiis cupiditate consequatur maxime sed dolorum ipsum laudantium
-            magnam aspernatur id iure asperiores? Eligendi laborum ipsum veritatis, voluptatibus aliquid ducimus dolorem
-            atque eum nisi qui accusantium sit aliquam necessitatibus ipsa numquam totam voluptates? Perspiciatis aliquid
-            fugiat optio possimus temporibus. Voluptatem eos neque atque, itaque minus, quis alias nemo, voluptate quia quo
-            deserunt consectetur autem sunt quaerat qui saepe recusandae! Reiciendis aliquam laudantium deserunt vero sint
-            necessitatibus molestiae suscipit odio nulla? Et magni excepturi quae praesentium nihil quod veniam nesciunt
-            ipsam alias doloremque repellendus, dolorum eveniet debitis. Esse nisi dolorem error vero, voluptatibus
-            repellendus cumque praesentium. Ratione repellat nam reiciendis provident odio deserunt deleniti vero
-            voluptates, quo beatae nisi qui nemo asperiores. Dolorum exercitationem dolores cupiditate provident qui!
-            Possimus iste hic veniam ipsa! Deleniti, eaque? Sint, sit, nesciunt natus quaerat, hic nobis vel quod inventore
-            animi distinctio numquam illo! Repellat quos numquam nemo error corrupti quia et cupiditate suscipit.
-        </p>
+        <div class="row">
+            <?php
+            while ($product = $products->fetch_assoc()) {
+                $pictures = $pictureFn->pictureGetByProductId($product['Product_id']);
+                $picture = $pictures->fetch_assoc();
+            ?>
+                <div class="col-12 col-sm-6 col-xl-4 mb-5">
+                    <a <?php echo "href='product-detail.php?pId=" . $product['Product_id'] . "'"; ?> class="card-link" title="คลิกดูรายละเอียด" data-toggle="tooltip" data-placement="bottom">
+                        <div class="card product-card">
+                            <?php if (isset($picture['Picture_name'])) { ?>
+                                <img class="product-img" <?php echo "src='uploads/" . $picture['Picture_name'] . "'" ?> alt="" class="card-img-top">
+                            <?php } else { ?>
+                                <img class="product-img" <?php echo "src='assets/no-image.png'" ?> alt="" class="card-img-top">
+                            <?php } ?>
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title"> <?php echo $product['Product_name']; ?> </h5>
+                                <p class="card-text text-muted text-ellipsis"> <?php echo $product['Product_description']; ?> </p>
+                                <h5 class="mt-auto mb-0 text-center price"><?php echo "฿", number_format($product['Product_price']); ?></h5>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+        </div>
+
     </div>
 
     <?php include_once('assets/scripts.html'); ?>

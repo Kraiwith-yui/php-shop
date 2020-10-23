@@ -8,7 +8,9 @@ CREATE TABLE tb_member(
     Member_gender VARCHAR(3),
     Member_idcard VARCHAR(13),
     Member_address VARCHAR(100),
-    Member_age int(2)
+    Member_phone VARCHAR(20),
+    Member_age int(2),
+    Member_role VARCHAR(10),
 );
 
 USE db_npshop;
@@ -20,18 +22,16 @@ INSERT INTO
         Member_fullname,
         Member_gender,
         Member_idcard,
-        Member_address,
         Member_age,
         Member_email
     )
 VALUES
     (
-        'yuria',
-        '123',
-        'mikoto yuria',
+        'admin',
+        '202cb962ac59075b964b07152d234b70',
+        'Administrator',
         'ชาย',
         '1234567890123',
-        '54 mo 5 ban khokklang district.lumpuk area.khamkhuankeao province.yasothon',
         26,
-        'kk@kk.com'
+        'admin@npshop.com'
     );

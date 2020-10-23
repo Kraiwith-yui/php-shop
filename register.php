@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 <body>
     <?php include_once('./components/navbar.php'); ?>
 
-    <div class="container pt-3">
+    <div class="container py-3">
         <div class="row justify-content-center">
             <div class="col-6">
                 <form method="POST">

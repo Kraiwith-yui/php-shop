@@ -1,4 +1,14 @@
 <?php
+
+session_start();
+if (!isset($_SESSION['Member'])) {
+    return header('location: ../login.php');
+}
+$member = $_SESSION['Member'];
+if ($member['Member_role'] != 'Admin') {
+    return header('location: ../');
+}
+
 include_once("../functions/product-function.php");
 include_once("../functions/picture-function.php");
 

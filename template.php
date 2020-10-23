@@ -13,7 +13,7 @@
 <body>
     <?php include_once('./components/navbar.php'); ?>
 
-    <div class="container">
+    <div class="container py-5">
         <p>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Voluptates placeat accusantium esse exercitationem
             ipsa a soluta sed veritatis quas cupiditate ut quam adipisci sunt quaerat, excepturi, facere odit libero

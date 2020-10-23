@@ -9,8 +9,10 @@
     crossorigin="anonymous"></script>
 
 <script>
-    $(function () {
-        $('[data-toggle="tooltip"]').tooltip();
-        $('[data-toggle="popover"]').popover();
-    });
+    setTimeout(() => {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $('[data-toggle="popover"]').popover();
+        });
+    }, 100);
 </script>
