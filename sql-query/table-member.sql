@@ -20,18 +20,14 @@ INSERT INTO
         Member_username,
         Member_password,
         Member_fullname,
-        Member_gender,
-        Member_idcard,
-        Member_age,
-        Member_email
+        Member_email,
+        Member_role
     )
 VALUES
     (
         'admin',
         '202cb962ac59075b964b07152d234b70',
         'Administrator',
-        'ชาย',
-        '1234567890123',
-        26,
-        'admin@npshop.com'
+        'admin@npshop.com',
+        'Admin'
     );
