@@ -15,8 +15,9 @@ if (isset($_POST['submit'])) {
     $name = $_POST['name'];
     $desc = $_POST['desc'];
     $price = $_POST['price'];
+    $amount = $_POST['amount'];
 
-    $result = $productFn->productUpdate($id, $name, $desc, $price);
+    $result = $productFn->productUpdate($id, $name, $desc, $price, $amount);
     echo $result;
     if ($result) {
         header("location: ./");
@@ -51,19 +52,30 @@ if (isset($_POST['submit'])) {
                 <input type="text" name="id" class="form-control" placeholder="" required <?php echo "value='" . $product["Product_id"] . "'"; ?>>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group">
                         <label for="">ชื่อสินค้า</label>
                         <input type="text" name="name" class="form-control" placeholder="" required <?php echo "value='" . $product["Product_name"] . "'"; ?>>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group">
                         <label for="">ราคาสินค้า</label>
                         <div class="input-group">
                             <input type="number" name="price" class="form-control" placeholder="0" min="0" max="9999999" required <?php echo "value='" . $product["Product_price"] . "'"; ?>>
                             <div class="input-group-append">
                                 <div class="input-group-text">บาท</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="">จำนวนคงเหลือ</label>
+                        <div class="input-group">
+                            <input type="number" name="amount" class="form-control" placeholder="0" min="0" max="9999999" required <?php echo "value='" . $product["Product_amount"] . "'"; ?>>
+                            <div class="input-group-append">
+                                <div class="input-group-text">ชิ้น</div>
                             </div>
                         </div>
                     </div>

@@ -64,6 +64,7 @@ if (isset($_SESSION['Member'])) {
             </div>
         <?php } ?>
 
+        <h5> มีสินค้าทั้งหมด <?php echo number_format($products->num_rows); ?> รายการ </h5>
         <div class="row">
             <?php
             while ($product = $products->fetch_assoc()) {
@@ -79,7 +80,7 @@ if (isset($_SESSION['Member'])) {
                                 <img class="product-img" <?php echo "src='assets/no-image.png'" ?> alt="" class="card-img-top">
                             <?php } ?>
                             <div class="card-body d-flex flex-column">
-                                <h5 class="card-title"> <?php echo $product['Product_name']; ?> </h5>
+                                <h5 class="card-title text-ellipsis"> <?php echo $product['Product_name']; ?> </h5>
                                 <p class="card-text text-muted text-ellipsis"> <?php echo $product['Product_description']; ?> </p>
                                 <h5 class="mt-auto mb-0 text-center price"><?php echo "฿", number_format($product['Product_price']); ?></h5>
                             </div>

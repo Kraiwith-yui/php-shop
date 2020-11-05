@@ -5,13 +5,14 @@ CREATE TABLE tb_member(
     Member_username VARCHAR(20) NOT NULL,
     Member_password VARCHAR(255) NOT NULL,
     Member_fullname VARCHAR(50) NOT NULL,
+    Member_email VARCHAR(30) NOT NULL,
     Member_gender VARCHAR(4),
     Member_idcard VARCHAR(13),
     Member_address VARCHAR(100),
     Member_phone VARCHAR(20),
     Member_age int(2),
-    Member_role VARCHAR(10),
-);
+    Member_role VARCHAR(10)
+) ENGINE = INNODB;
 
 USE db_npshop;
 

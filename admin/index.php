@@ -87,6 +87,7 @@ $orders = $orderFn->getOrderAll();
                         <th>ชื่อสินค้า</th>
                         <th>รายละเอียด</th>
                         <th width="150px">ราคา</th>
+                        <th width="150px">จำนวนคงเหลือ</th>
                         <th width="150px"></th>
                     </tr>
                 </thead>
@@ -109,6 +110,7 @@ $orders = $orderFn->getOrderAll();
                             <td> <?php echo $product["Product_name"]; ?> </td>
                             <td> <?php echo $product["Product_description"]; ?> </td>
                             <td class="text-right"> <?php echo number_format($product["Product_price"]); ?> บาท </td>
+                            <td class="text-right"> <?php echo number_format($product["Product_amount"]); ?> ชิ้น </td>
                             <td class="text-center">
                                 <div class="btn-group">
                                     <a <?php echo "href='./product-update.php?pId=" . $product["Product_id"] . "'" ?> class="btn btn-warning">

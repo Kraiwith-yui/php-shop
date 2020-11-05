@@ -4,9 +4,9 @@ include_once("db.php");
 
 class productFunction extends connectDB
 {
-    public function productCreate($name, $desc, $price)
+    public function productCreate($name, $desc, $price, $amount)
     {
-        $sql = "INSERT INTO tb_product(Product_name, Product_description, Product_price) VALUES ('$name', '$desc', '$price')";
+        $sql = "INSERT INTO tb_product(Product_name, Product_description, Product_price, Product_amount) VALUES ('$name', '$desc', '$price', '$amount')";
         return $this->conn->query($sql);
     }
 
@@ -18,13 +18,13 @@ class productFunction extends connectDB
 
     public function productGetById($id)
     {
-        $sql = "SELECT * FROM tb_product WHERE Product_id = '$id'";
+        $sql = "SELECT * FROM tb_product WHERE Product_id='$id'";
         return $this->conn->query($sql);
     }
 
-    public function productUpdate($id, $name, $desc, $price)
+    public function productUpdate($id, $name, $desc, $price, $amount)
     {
-        $sql = "UPDATE tb_product SET Product_name='$name',Product_description='$desc',Product_price='$price' WHERE Product_id='$id'";
+        $sql = "UPDATE tb_product SET Product_name='$name',Product_description='$desc',Product_price='$price', Product_amount='$amount' WHERE Product_id='$id'";
         return $this->conn->query($sql);
     }
 

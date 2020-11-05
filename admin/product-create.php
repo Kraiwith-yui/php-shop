@@ -16,8 +16,9 @@ if (isset($_POST['submit'])) {
     $name = trim($_POST['name']);
     $desc = trim($_POST['desc']);
     $price = $_POST['price'];
+    $amount = $_POST['amount'];
 
-    $result = $productFn->productCreate($name, $desc, $price);
+    $result = $productFn->productCreate($name, $desc, $price, $amount);
     if ($result) {
         $newProduct = $productFn->productGetLast();
 
@@ -39,7 +40,7 @@ if (isset($_POST['submit'])) {
 
         header("location: ./");
     } else {
-        echo "<script>window.alert('Create Data Failed!!!. Try again later.');</script>";
+        echo "<script>window.alert('Create Product Failed!!!. Try again later.');</script>";
         echo "<script>window.location.href='./';</script>";
     }
 }
@@ -103,19 +104,30 @@ if (isset($_POST['submit'])) {
                 </div>
             </div>
             <div class="row">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group">
                         <label for="">ชื่อสินค้า</label>
                         <input type="text" name="name" class="form-control" placeholder="" required>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="form-group">
                         <label for="">ราคาสินค้า</label>
                         <div class="input-group">
                             <input type="number" name="price" class="form-control text-right" placeholder="0" min="0" max="9999999" required>
                             <div class="input-group-append">
                                 <div class="input-group-text">บาท</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <label for="">จำนวน</label>
+                        <div class="input-group">
+                            <input type="number" name="amount" class="form-control text-right" placeholder="0" min="0" max="9999" required>
+                            <div class="input-group-append">
+                                <div class="input-group-text">ชิ้น</div>
                             </div>
                         </div>
                     </div>

@@ -6,7 +6,6 @@ include_once('../functions/picture-function.php');
 $productFn = new productFunction();
 $pictureFn = new pictureFunction();
 
-
 $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $parts = parse_url($actual_link);
 parse_str($parts['query'], $query);
@@ -24,11 +23,13 @@ while ($picture = $pictures->fetch_assoc()) {
     $resultPicture = $pictureFn->pictureDelete($picture['Picture_id']);
 }
 
-// delete all product
+// delete product
+echo "<br>pId => ".$pId."<br>";
 $result = $productFn->productDelete($pId);
-if ($result) {
-    echo "<script>window.location.href='./'</script>";
-} else {
-    echo "<script>window.alert('Failed to delete product.')</script>";
-    echo "<script>window.location.href='./'</script>";
-}
+echo "result => ".$result."<br>";
+// if ($result) {
+//     echo "<script>window.location.href='./'</script>";
+// } else {
+//     echo "<script>window.alert('Failed to delete product.')</script>";
+//     echo "<script>window.location.href='./'</script>";
+// }

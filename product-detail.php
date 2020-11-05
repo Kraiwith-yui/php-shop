@@ -2,11 +2,19 @@
 
 session_start();
 
+
+$member = null;
+if (isset($_SESSION['Member'])) {
+    $member = $_SESSION['Member'];
+}
+
 include_once('functions/product-function.php');
 include_once('functions/picture-function.php');
+include_once('functions/cart-function.php');
 
 $productFn = new productFunction();
 $pictureFn = new pictureFunction();
+$cartFn = new cartFunction();
 
 $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 $parts = parse_url($actual_link);
@@ -17,6 +25,35 @@ $products = $productFn->productGetById($pId);
 $product = $products->fetch_assoc();
 
 $pictures = $pictureFn->pictureGetByProductId($pId);
+
+if (isset($_POST['submit'])) {
+    $amount = $_POST['amount'];
+
+    $carts = $cartFn->cartGetMy($product['Product_id'], $member['Member_id']);
+    if ($carts->num_rows > 0) {
+
+        // Update 
+        $cart = $carts->fetch_assoc();
+        $calAmount = $cart['Cart_amount'] + $amount;
+        $update = $cartFn->cartUpdateAmount($cart['Cart_id'], $calAmount);
+        if ($update) {
+            echo "<script>window.location.href='cart.php?cartId=" . $cart['Cart_id'] . "';</script>";
+        } else {
+            echo "<script>alert('Failed for add cart!');</script>";
+            echo "<script>window.location.href='cart.php';</script>";
+        }
+    } else {
+
+        // Create 
+        $create = $cartFn->cartCreate($amount, $pId, $member["Member_id"]);
+        if ($create) {
+            echo "<script>window.location.href='cart.php';</script>";
+        } else {
+            echo "<script>alert('Failed for add cart!');</script>";
+            echo "<script>window.location.href='cart.php';</script>";
+        }
+    }
+}
 
 ?>
 
@@ -77,24 +114,30 @@ $pictures = $pictureFn->pictureGetByProductId($pId);
                     <div class="card-body">
                         <h2> <?php echo $product['Product_name']; ?> </h2>
                         <h4 class="price"> <?php echo "฿" . number_format($product['Product_price']); ?> </h4>
-                        <p class="text-secondary"> <?php echo $product['Product_name']; ?> </p>
-                        <form action="order-create.php" method="GET">
+                        <p class="text-secondary"> <?php echo $product['Product_description']; ?> </p>
+                        <form method="POST">
                             <div class="form-group sr-only">
                                 <input type="text" name="pId" class="form-control" <?php echo "value=$pId"; ?> required>
                             </div>
                             <div class="form-group">
+                                มีสินค้าทั้งหมด <?php echo number_format($product['Product_amount']); ?> ชิ้น
+                            </div>
+                            <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <div class="input-group-text">จำนวน</div>
+                                        <span class="input-group-text">จำนวน</span>
                                     </div>
-                                    <input type="number" name="amount" class="form-control" value="1" min="1" required>
+                                    <input type="number" name="amount" class="form-control text-right" value="1" min="1" max="<?php echo $product['Product_amount']; ?>" required>
+                                    <div class="input-group-append">
+                                        <span class="input-group-text">ชิ้น</span>
+                                    </div>
                                 </div>
                             </div>
-                            <?php if (isset($_SESSION['Member'])) { ?>
-                                <button type="submit" name="submit" class="btn btn-block btn-warning"> <i class="fas fa-shopping-cart"></i> ซื้อสินค้า </button>
+                            <?php if (isset($member)) { ?>
+                                <button type="submit" name="submit" class="btn btn-block btn-warning"> <i class="fas fa-shopping-cart"></i> เพิ่มในตะกร้า </button>
                             <?php } else { ?>
                                 <a href="login.php" class="btn btn-block btn-warning">
-                                    <i class="fas fa-shopping-cart"></i> ซื้อสินค้า </button> </a>
+                                    <i class="fas fa-shopping-cart"></i> เพิ่มในตะกร้า </button> </a>
                             <?php } ?>
 
                         </form>

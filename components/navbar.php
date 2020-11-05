@@ -30,7 +30,9 @@ if (isset($_SESSION['Member'])) {
                     </li>
                 </ul>
             <?php } else { ?>
-                <div class="btn-group ml-auto">
+                <a href="cart.php" class="ml-auto text-warning" title="รถเข็น" data-toggle="tooltip" data-placement="bottom">
+                    <i class="fas fa-shopping-cart"></i> </a>
+                <div class="btn-group ml-3">
                     <a class="dropdown-toggle text-light text-capitalize" data-toggle="dropdown"> <?php echo $member['Member_fullname'] ?> </a>
                     <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href="member-detail.php"> <i class="fas fa-user fa-fw"></i> ข้อมูลสมาชิก </a>

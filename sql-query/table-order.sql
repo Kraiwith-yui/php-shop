@@ -10,6 +10,6 @@ CREATE TABLE tb_order (
     Order_status VARCHAR(10),
     Member_id INT(11),
     Product_id INT(11),
-    CONSTRAINT FK_Member_id FOREIGN KEY (Member_id) REFERENCES tb_member(Member_id),
-    CONSTRAINT FK_Product_id FOREIGN KEY (Product_id) REFERENCES tb_product(Product_id)
-);
+    CONSTRAINT FK_Member_id FOREIGN KEY (Member_id) REFERENCES tb_member(Member_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT FK_Order_Product_id FOREIGN KEY (Product_id) REFERENCES tb_product(Product_id) ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE = INNODB;

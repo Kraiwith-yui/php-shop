@@ -1,0 +1,10 @@
+USE db_npshop;
+
+CREATE TABLE tb_cart(
+    Cart_id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    Cart_amount INT(4) NOT NULL,
+    Product_id INT(11) NOT NULL,
+    Member_id INT(11) NOT NULL,
+    CONSTRAINT FK_Cart_Product FOREIGN KEY (Product_id) REFERENCES tb_product(Product_id) ON UPDATE CASCADE ON DELETE RESTRICT,
+    CONSTRAINT FK_Cart_Member FOREIGN KEY (Member_id) REFERENCES tb_member(Member_id) ON UPDATE CASCADE ON DELETE RESTRICT
+) ENGINE = INNODB;
