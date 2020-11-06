@@ -4,10 +4,10 @@ include_once("db.php");
 
 class orderFunction extends connectDB
 {
-    function create($addr, $phone, $price, $amount,  $memId, $prodId)
+    function create($addr, $phone, $price, $memId, $products)
     {
-        $sql = "INSERT INTO tb_order(Order_address, Order_phone, Order_price, Order_amount, Order_status, Member_id, Product_id) 
-            VALUES ('$addr', '$phone', '$price', '$amount', 'waiting', '$memId', '$prodId')";
+        $sql = "INSERT INTO tb_order(Order_address, Order_phone, Order_price, Order_status, Member_id, Order_products) 
+            VALUES ('$addr', '$phone', '$price', 'waiting', '$memId', '$products')";
         return $this->conn->query($sql);
     }
 
@@ -23,9 +23,9 @@ class orderFunction extends connectDB
         return $this->conn->query($sql);
     }
 
-    function orderStatusSuccess($oId)
+    function orderStatusSuccess($orderId)
     {
-        $sql = "UPDATE tb_order SET Order_status='success' WHERE Order_id='$oId'";
+        $sql = "UPDATE tb_order SET Order_status='success' WHERE Order_id='$orderId'";
         return $this->conn->query($sql);
     }
 }

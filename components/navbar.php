@@ -3,7 +3,14 @@
 $member = null;
 if (isset($_SESSION['Member'])) {
     $member = $_SESSION['Member'];
+
+    include_once('functions/cart-function.php');
+    $cartFn = new cartFunction();
+    $carts = $cartFn->cartGetByMemberId($member['Member_id']);
+    $cartNum = $carts->num_rows;
 }
+
+
 
 ?>
 
@@ -30,8 +37,12 @@ if (isset($_SESSION['Member'])) {
                     </li>
                 </ul>
             <?php } else { ?>
-                <a href="cart.php" class="ml-auto text-warning" title="รถเข็น" data-toggle="tooltip" data-placement="bottom">
-                    <i class="fas fa-shopping-cart"></i> </a>
+                <a href="cart.php" class="ml-auto" title="รถเข็น" data-toggle="tooltip" data-placement="bottom">
+                    <i class="fas fa-shopping-cart text-warning"></i>
+                    <?php if ($cartNum > 0) { ?>
+                        <span class="badge badge-warning rounded-circle"><?php echo $cartNum; ?></span>
+                    <?php } ?>
+                </a>
                 <div class="btn-group ml-3">
                     <a class="dropdown-toggle text-light text-capitalize" data-toggle="dropdown"> <?php echo $member['Member_fullname'] ?> </a>
                     <div class="dropdown-menu dropdown-menu-right">

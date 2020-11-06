@@ -28,6 +28,15 @@ class productFunction extends connectDB
         return $this->conn->query($sql);
     }
 
+    public function updateAmount($productId, $amount)
+    {
+        $product = $this->productGetById($productId)->fetch_assoc();
+        $stockAmount = $product['Product_amount'] - $amount;
+
+        $sql = "UPDATE tb_product SET Product_amount='$stockAmount' WHERE Product_id='$productId'";
+        return $this->conn->query($sql);
+    }
+
     public function productGetLast()
     {
         $sql = "SELECT * FROM tb_product ORDER BY Product_id DESC";

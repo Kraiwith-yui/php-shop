@@ -33,4 +33,10 @@ class cartFunction extends connectDB
         $sql = "SELECT * FROM tb_cart WHERE Product_id='$productId' AND Member_id='$memberId'";
         return $this->conn->query($sql);
     }
+
+    public function cartDeleteAll()
+    {
+        $sql = "DELETE FROM tb_cart";
+        return $this->conn->query($sql);
+    }
 }

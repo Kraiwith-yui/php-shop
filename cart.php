@@ -18,8 +18,6 @@ $cartFn = new cartFunction();
 
 $carts = $cartFn->cartGetByMemberId($member['Member_id']);
 
-if (isset($_POST['submit']))
-    print_r($_POST);
 ?>
 
 <!DOCTYPE html>
@@ -54,64 +52,70 @@ if (isset($_POST['submit']))
 
     <div class="container py-5">
         <h3> รายการสินค้าในรถเข็น <?php echo $carts->num_rows; ?> รายการ </h3>
-        <form method="POST">
-            <table class="table table-hover table-bordered">
-                <thead>
-                    <tr>
-                        <th style="width: 250px"> รูป </th>
-                        <th> ชื่อ </th>
-                        <th> รายละเอียด </th>
-                        <th style="width: 120px"> ราคา </th>
-                        <th style="width: 180px"> จำนวน </th>
-                        <th style="width: 120px"> รวม </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $totalPrice = 0;
-                    while ($cart = $carts->fetch_assoc()) {
-                        $product = $productFn->productGetById($cart["Product_id"])->fetch_assoc();
-                        $pictures = $pictureFn->pictureGetByProductId($cart["Product_id"]);
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 250px"> รูป </th>
+                    <th> ชื่อ </th>
+                    <th> รายละเอียด </th>
+                    <th style="width: 120px"> ราคา </th>
+                    <th style="width: 180px"> จำนวน </th>
+                    <th style="width: 120px"> รวม </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $totalPrice = 0;
+                while ($cart = $carts->fetch_assoc()) {
+                    $product = $productFn->productGetById($cart["Product_id"])->fetch_assoc();
+                    $pictures = $pictureFn->pictureGetByProductId($cart["Product_id"]);
 
-                        $totalPrice = $totalPrice + ($cart['Cart_amount'] * $product['Product_price']);
-                    ?>
-                        <tr>
-                            <td>
-                                <?php while ($picture = $pictures->fetch_assoc()) { ?>
-                                    <img class="img-product" <?php echo "src='uploads/" . $picture['Picture_name'] . "'"; ?> alt="">
-                                <?php } ?>
-                            </td>
-                            <td> <?php echo $product['Product_name']; ?> </td>
-                            <td> <?php echo $product['Product_description']; ?> </td>
-                            <td class="text-right"> <span class="product-price"><?php echo number_format($product['Product_price']); ?></span> บาท </td>
-                            <td>
-                                <div class="input-group">
-                                    <input type="number" class="form-control text-right cart-amount" min="0" cartId="<?php echo $cart['Cart_id']; ?>" max="<?php echo $product['Product_amount']; ?>" value="<?php echo $cart['Cart_amount']; ?>" onblur="checkProductAmount(this)">
-                                    <div class="input-group-append">
-                                        <span class="input-group-text">ชิ้น</span>
-                                    </div>
+                    $totalPrice = $totalPrice + ($cart['Cart_amount'] * $product['Product_price']);
+                ?>
+                    <tr>
+                        <td>
+                            <?php while ($picture = $pictures->fetch_assoc()) { ?>
+                                <img class="img-product" <?php echo "src='uploads/" . $picture['Picture_name'] . "'"; ?> alt="">
+                            <?php } ?>
+                        </td>
+                        <td> <?php echo $product['Product_name']; ?> </td>
+                        <td> <?php echo $product['Product_description']; ?> </td>
+                        <td class="text-right price"> ฿<span class="product-price"><?php echo number_format($product['Product_price']); ?></span> </td>
+                        <td>
+                            <div class="input-group">
+                                <input type="number" class="form-control text-right cart-amount" min="0" cartId="<?php echo $cart['Cart_id']; ?>" max="<?php echo $product['Product_amount']; ?>" value="<?php echo $cart['Cart_amount']; ?>" onblur="checkProductAmount(this)">
+                                <div class="input-group-append">
+                                    <span class="input-group-text">ชิ้น</span>
                                 </div>
-                                <span>สินค้าที่มีอยู่ : <span id="product-<?php echo $count; ?>">
-                                        <?php echo number_format($product['Product_amount']); ?></span> ชิ้น </span>
-                                <div class="">
-                                    <a href="cart-delete.php?cartId=<?php echo $cart['Cart_id'] ?>" class="text-secondary" title="ลบจากรถเข็น" data-toggle="tooltip" data-placement="bottom">
-                                        <i class="fas fa-trash-alt"></i> </a>
-                                </div>
-                            </td>
-                            <td class="text-right"> <span class="cart-total"><?php echo number_format($product['Product_price'] * $cart['Cart_amount']); ?></span> บาท </td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-            <div class="form-inline mb-3">
-                <a href="./">
-                    <button type="button" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> เลือกสินค้าเพิ่ม </button> </a>
-                <div class="form-inline align-items-center ml-auto"> รวมทั้งสิ้น : <span class="total-price price" id="total-price"><?php echo number_format($totalPrice); ?></span> บาท </div>
-                <button type="submit" id="submit" name="submit" class="btn btn-warning ml-3"> สั่งซื้อสินค้า </button>
-            </div>
-        </form>
+                            </div>
+                            <span>สินค้าที่มีอยู่ : <span id="product-<?php echo $count; ?>">
+                                    <?php echo number_format($product['Product_amount']); ?></span> ชิ้น </span>
+                            <div class="">
+                                <a href="cart-delete.php?cartId=<?php echo $cart['Cart_id'] ?>" class="text-secondary" title="ลบจากรถเข็น" data-toggle="tooltip" data-placement="bottom">
+                                    <i class="fas fa-trash-alt"></i> </a>
+                            </div>
+                        </td>
+                        <td class="text-right"> ฿<span class="cart-total"> <?php echo number_format($product['Product_price'] * $cart['Cart_amount']); ?></span> </td>
+                    </tr>
+                <?php
+                }
+                ?>
+            </tbody>
+        </table>
+        <div class="form-inline mb-3">
+            <a href="./">
+                <button type="button" class="btn btn-secondary"> <i class="fas fa-arrow-left"></i> เลือกสินค้าเพิ่ม </button> </a>
+            <div class="form-inline align-items-center ml-auto"> รวมทั้งสิ้น : <span class="total-price price">฿<span id="total-price"><?php echo number_format($totalPrice); ?></span></span> </div>
+
+            <?php if ($carts->num_rows > 0) { ?>
+                <a href="./order-create.php">
+                    <button type="button" class="btn btn-warning ml-3"> สั่งซื้อสินค้า </button> </a>
+            <?php } else { ?>
+                <button type="button" class="btn btn-warning ml-3" disabled> สั่งซื้อสินค้า </button>
+            <?php } ?>
+
+
+        </div>
     </div>
 
     <?php include_once('./assets/scripts.html'); ?>
@@ -141,8 +145,6 @@ if (isset($_POST['submit']))
         }
 
         function checkProductAmount(input) {
-            const btnSubmit = document.getElementById('submit');
-
             const amount = +input.value;
             if (amount > +input.max) {
                 alert('สินค้าในคลังไม่เพียงพอ');

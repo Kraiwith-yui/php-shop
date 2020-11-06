@@ -11,32 +11,36 @@ if (isset($_SESSION['Member'])) {
 
 include_once('functions/product-function.php');
 include_once('functions/picture-function.php');
+include_once('functions/cart-function.php');
 include_once('functions/order-function.php');
 $productFn = new productFunction();
 $pictureFn = new pictureFunction();
+$cartFn = new cartFunction();
 $orderFn = new orderFunction();
 
-$actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-$parts = parse_url($actual_link);
-parse_str($parts['query'], $query);
-$pId = $query['pId'];
-$amount = $query['amount'];
-
-$product = $productFn->productGetById($pId)->fetch_assoc();
-$picture = $pictureFn->pictureGetByProductId($pId)->fetch_assoc();
+$carts = $cartFn->cartGetByMemberId($member['Member_id']);
 
 if (isset($_POST['submit'])) {
-    $address = $_POST['address'];
+    $addr = $_POST['address'];
     $phone = $_POST['phone'];
-    $price = $product['Product_price'] * $amount;
-    $amount = $amount;
+    $totalPrice = $_POST['totalprice'];
+    $products = $_POST['products'];
 
-    $result = $orderFn->create($address, $phone, $price, $amount, $member['Member_id'], $pId);
-    if ($result) {
-        echo "<script>window.location.href='order.php';</script>";
+    $order = $orderFn->create($addr, $phone, $totalPrice, $member['Member_id'], $products);
+    if ($order) {
+        // Remove All Cart
+        $rmCart = $cartFn->cartDeleteAll();
+
+        // Update Decrease Product Amount
+        $updateProducts = json_decode($products);
+        foreach ($updateProducts as $cart) {
+            $updateAmount = $productFn->updateAmount($cart['Product_id'], $cart['Cart_amount']);
+        }
+
+        echo "<script>window.location.href='./order.php';</script>";
     } else {
-        echo "<script>window.alert('Failed to create order.');</script>";
-        echo "<script>window.location.href='product-detail.php?pId=$pId';</script>";
+        echo "<script>alert('Create Order Failed!');</script>";
+        echo "<script>window.location.href='./order.php';</script>";
     }
 }
 
@@ -60,6 +64,10 @@ if (isset($_POST['submit'])) {
             object-fit: cover;
             border: 1px solid #eee;
         }
+
+        .total-price {
+            font-size: 30px;
+        }
     </style>
 </head>
 
@@ -73,28 +81,52 @@ if (isset($_POST['submit'])) {
                     <thead>
                         <tr>
                             <th> สินค้า </th>
-                            <th width="180px"> ราคา </th>
-                            <th width="120px"> จำนวน </th>
+                            <th> ราคา </th>
+                            <th width="100px"> จำนวน </th>
+                            <th> รวม </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>
-                                <?php if (isset($picture["Picture_name"])) { ?>
-                                    <img class="product-img float-left mr-2" <?php echo "src='uploads/" . $picture["Picture_name"] . "'"; ?> alt="">
-                                <?php } else { ?>
-                                    <img class="product-img float-left mr-2" src="assets/no-image.png" alt="">
-                                <?php } ?>
-                                <div class="" style="margin-left: 58px;">
-                                    <div> <?php echo $product['Product_name'] ?> </div>
-                                    <div class="text-muted"> <?php echo $product['Product_description'] ?> </div>
-                                </div>
-                            </td>
-                            <td class="text-center price"> <?php echo "฿" . number_format($product['Product_price']); ?> </td>
-                            <td class="text-center"> <?php echo $amount ?> </td>
-                        </tr>
+                        <?php
+                        $totalPrice = 0;
+                        $newCarts = array();
+                        while ($cart = $carts->fetch_assoc()) {
+                            $products = $productFn->productGetById($cart['Product_id']);
+                            $pictures = $pictureFn->pictureGetByProductId($cart['Product_id']);
+                            if ($products->num_rows > 0) {
+                                $product = $products->fetch_assoc();
+                                $picture = $pictures->fetch_assoc();
+                                $totalPrice += ($cart['Cart_amount'] * $product['Product_price']);
+
+                                array_push($newCarts, $cart);
+                        ?>
+                                <tr>
+                                    <td>
+                                        <?php if (isset($picture["Picture_name"])) { ?>
+                                            <img class="product-img float-left mr-2" <?php echo "src='uploads/" . $picture["Picture_name"] . "'"; ?> alt="">
+                                        <?php } else { ?>
+                                            <img class="product-img float-left mr-2" src="assets/no-image.png" alt="">
+                                        <?php } ?>
+                                        <div class="" style="margin-left: 58px;">
+                                            <div> <?php echo $product['Product_name'] ?> </div>
+                                            <div class="text-muted"> <?php echo $product['Product_description'] ?> </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-right price"> <?php echo "฿" . number_format($product['Product_price']); ?> </td>
+                                    <td class="text-right"> <?php echo $cart['Cart_amount'] ?> ชิ้น </td>
+                                    <td class="text-right"> ฿<?php echo number_format($cart['Cart_amount'] * $product['Product_price']); ?> </td>
+                                </tr>
+                        <?php
+                            }
+                        }
+                        $strCarts = json_encode($newCarts, JSON_UNESCAPED_UNICODE);
+                        ?>
                     </tbody>
                 </table>
+
+                <?php
+                echo $strCarts;
+                ?>
             </div>
             <div class="col-4">
                 <div class="card">
@@ -111,17 +143,15 @@ if (isset($_POST['submit'])) {
                                 <label for="tel"> <i class="fas fa-fw fa-phone-alt text-info text-left"></i> <small class="text-muted">เบอร์โทร</small> </label>
                                 <input type="text" id="tel" name="phone" class="form-control" required maxlength="30" value="<?php echo $member['Member_phone'] ?>">
                             </div>
-                            <div class="form-group">
-                                <div class="text-right">
-                                    <span class="float-left"> รวมทั้งสิ้น </span>
-                                    <span class="price">
-                                        <?php echo "฿" . number_format($amount * $product['Product_price']); ?>
-                                    </span>
-                                </div>
+                            <div class="form-group d-none">
+                                <input type="text" name="totalprice" class="form-control" value="<?php echo $totalPrice; ?>">
+                                <textarea name="products" class="form-control"><?php echo $strCarts; ?></textarea>
                             </div>
-                            <div class="form-group sr-only">
-                                <input type="text" name="totalPrice" <?php echo "value='" . $amount * $product['Product_price'] . "'" ?>>
-                                <input type="text" name="amount" <?php echo "value='$amount'" ?>>
+                            <div class="form-group form-inline">
+                                <span class="mr-auto"> รวมทั้งสิ้น </span>
+                                <span class="total-price price">
+                                    <?php echo "฿" . number_format($totalPrice); ?>
+                                </span>
                             </div>
                             <button type="submit" name="submit" class="btn btn-block btn-warning"> สั่งซื้อ </button>
                         </form>

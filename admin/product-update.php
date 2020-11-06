@@ -62,10 +62,10 @@ if (isset($_POST['submit'])) {
                     <div class="form-group">
                         <label for="">ราคาสินค้า</label>
                         <div class="input-group">
-                            <input type="number" name="price" class="form-control" placeholder="0" min="0" max="9999999" required <?php echo "value='" . $product["Product_price"] . "'"; ?>>
-                            <div class="input-group-append">
-                                <div class="input-group-text">บาท</div>
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">฿</div>
                             </div>
+                            <input type="number" name="price" class="form-control" placeholder="0" min="0" max="9999999" required <?php echo "value='" . $product["Product_price"] . "'"; ?>>
                         </div>
                     </div>
                 </div>

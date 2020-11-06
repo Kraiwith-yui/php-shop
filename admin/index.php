@@ -109,7 +109,7 @@ $orders = $orderFn->getOrderAll();
                             </td>
                             <td> <?php echo $product["Product_name"]; ?> </td>
                             <td> <?php echo $product["Product_description"]; ?> </td>
-                            <td class="text-right"> <?php echo number_format($product["Product_price"]); ?> บาท </td>
+                            <td class="text-right"> ฿<?php echo number_format($product["Product_price"]); ?> </td>
                             <td class="text-right"> <?php echo number_format($product["Product_amount"]); ?> ชิ้น </td>
                             <td class="text-center">
                                 <div class="btn-group">
