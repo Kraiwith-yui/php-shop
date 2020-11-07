@@ -77,7 +77,7 @@ if (isset($_POST['submit'])) {
     <div class="container py-5">
         <div class="row">
             <div class="col-8">
-                <table class="table table-bordered">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th> สินค้า </th>

@@ -10,7 +10,6 @@ if (isset($_POST['submit'])) {
     $username = $_POST['username'];
     $password = md5($_POST['password']);
 
-    print_r($_POST);
     $result = $memberFn->memberRegister($username, $password, $fullname, $email);
     echo "<br> =>" . $result;
     if ($result) {

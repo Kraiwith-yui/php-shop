@@ -10,7 +10,6 @@ include_once('functions/member-function.php');
 $memberFn = new memberFunction();
 
 if (isset($_POST['submit'])) {
-    print_r($_POST);
     $fullname = $_POST['fullname'];
     $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
     $age = $_POST['age'];

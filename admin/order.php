@@ -2,18 +2,22 @@
 
 session_start();
 if (!isset($_SESSION['Member'])) {
-    header('location: login.php');
+    return header('location: ../login.php');
 }
 $member = $_SESSION['Member'];
+if ($member['Member_role'] != 'Admin') {
+    return header('location: ../');
+}
 
-include_once('functions/order-function.php');
-include_once('functions/product-function.php');
-include_once('functions/picture-function.php');
+include_once('../functions/order-function.php');
+include_once('../functions/product-function.php');
+include_once('../functions/picture-function.php');
+
 $orderFn = new orderFunction();
 $productFn = new productFunction();
 $pictureFn = new pictureFunction();
 
-$orders = $orderFn->getOrderByMemberId($member['Member_id']);
+$orders = $orderFn->getOrderAll($member['Member_id']);
 
 ?>
 
@@ -24,32 +28,26 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Namploy Shop</title>
-    <link rel="icon" href="assets/logo.ico" type="image/ico">
+    <link rel="icon" href="../assets/logo.ico" type="image/ico">
 
-    <?php include_once('./assets/styles.html'); ?>
+    <?php include_once('../assets/styles.html'); ?>
     <style>
-        .product-img {
+        .order-img {
             width: 50px;
             height: 50px;
-            object-fit: cover;
-            margin-right: 0.5rem;
+            object-fit: contain;
+            margin: 0 5px 5px;
         }
     </style>
 </head>
 
 <body>
-    <?php include_once('./components/navbar.php'); ?>
-
     <div class="container pt-3 pb-5">
         <div class="form-inline mb-3">
-            <h3>รายการสั่งซื้อ</h3>
-
-            <div class="ml-auto">
-                ติดต่อผู้ดูแล
-                <a href="https://line.me/ti/p/~namploy_22" class="ml-2" target="_blank">
-                    <img src="assets/line@.jpg" alt="" width="60" height="60"> </a>
-            </div>
+            <a href="./" class="btn btn-outline-secondary mr-3"> <i class="fas fa-arrow-left"></i> Back </a>
+            <h2 class="m-0">รายการใบสั่งซื้อ</h2>
         </div>
+
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -80,9 +78,12 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="100%">
-                            <a data-toggle="collapse" data-target="#collapse-<?php echo $count; ?>">
-                                <button type="button" class="btn btn-primary"> <i class="fas fa-angle-double-down"></i> แสดง/ซ่อน รายการสินค้า </button> </a>
+                        <td colspan="100%" class="bg-light">
+                            <div class="text-center p-1">
+                                <a data-toggle="collapse" data-target="#collapse-<?php echo $count; ?>">
+                                    <button type="button" class="btn btn-primary"> <i class="fas fa-angle-double-down"></i> แสดง/ซ่อน รายการสินค้า </button> </a>
+                            </div>
+
                             <div class="collapse" id="collapse-<?php echo $count; ?>">
                                 <table class="table table-bordered table-hover">
                                     <thead>
@@ -120,7 +121,7 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
         </table>
     </div>
 
-    <?php include_once('./assets/scripts.html'); ?>
+    <?php include_once('../assets/scripts.html'); ?>
 </body>
 
 </html>

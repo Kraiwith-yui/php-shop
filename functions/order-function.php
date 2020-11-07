@@ -28,4 +28,9 @@ class orderFunction extends connectDB
         $sql = "UPDATE tb_order SET Order_status='success' WHERE Order_id='$orderId'";
         return $this->conn->query($sql);
     }
+
+    function getOrderDateFrom($from, $end) {
+        $sql = "SELECT * FROM tb_order WHERE Order_date BETWEEN '$from 00:00:00' AND '$end 23:59:59'";
+        return $this->conn->query($sql);
+    }
 }
