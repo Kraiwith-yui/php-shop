@@ -10,7 +10,7 @@ $orderFn = new orderFunction();
 
 $result = $orderFn->orderStatusSuccess($orderId);
 if ($result) {
-    header('location: ./?tab=order');
+    header('location: ./order.php');
 } else {
     echo "<script>window.alert('Update Status Failed!');</script>";
     echo "<script>window.location.href='./?tab=order';</script>";

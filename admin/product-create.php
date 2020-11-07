@@ -38,10 +38,10 @@ if (isset($_POST['submit'])) {
             }
         }
 
-        header("location: ./");
+        header("location: ./product.php");
     } else {
         echo "<script>window.alert('Create Product Failed!!!. Try again later.');</script>";
-        echo "<script>window.location.href='./';</script>";
+        echo "<script>window.location.href='./product.php';</script>";
     }
 }
 ?>

@@ -72,8 +72,10 @@ $orders = $orderFn->getOrderAll($member['Member_id']);
                         <td class="text-center">
                             <?php if ($order['Order_status'] == 'waiting') { ?>
                                 <span class="text-warning"> รอยืนยันการโอน </span>
+                                <a href="order-success.php?oId=<?php echo $order['Order_id']; ?>" class="btn btn-outline-success btn-sm" title="ยืนยันการโอน" data-toggle="tooltip" placement="bottom">
+                                    <i class="fas fa-check"></i> </a>
                             <?php } else if ($order['Order_status'] == 'success') { ?>
-                                <span class="text-success"> สำเร็จ </span>
+                                <span class="text-success"> ยืนยันการโอนแล้ว </span>
                             <?php } ?>
                         </td>
                     </tr>

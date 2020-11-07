@@ -19,6 +19,9 @@ $cartFn = new cartFunction();
 $orderFn = new orderFunction();
 
 $carts = $cartFn->cartGetByMemberId($member['Member_id']);
+if ($carts->num_rows == 0) {
+    header('location: cart.php');
+}
 
 if (isset($_POST['submit'])) {
     $addr = $_POST['address'];
@@ -34,7 +37,7 @@ if (isset($_POST['submit'])) {
         // Update Decrease Product Amount
         $updateProducts = json_decode($products);
         foreach ($updateProducts as $cart) {
-            $updateAmount = $productFn->updateAmount($cart['Product_id'], $cart['Cart_amount']);
+            $updateAmount = $productFn->updateAmount($cart->Product_id, $cart->Cart_amount);
         }
 
         echo "<script>window.location.href='./order.php';</script>";
@@ -120,13 +123,10 @@ if (isset($_POST['submit'])) {
                             }
                         }
                         $strCarts = json_encode($newCarts, JSON_UNESCAPED_UNICODE);
+                        $totalPriceAddDeliver = $totalPrice + 25;
                         ?>
                     </tbody>
                 </table>
-
-                <?php
-                echo $strCarts;
-                ?>
             </div>
             <div class="col-4">
                 <div class="card">
@@ -143,14 +143,22 @@ if (isset($_POST['submit'])) {
                                 <label for="tel"> <i class="fas fa-fw fa-phone-alt text-info text-left"></i> <small class="text-muted">เบอร์โทร</small> </label>
                                 <input type="text" id="tel" name="phone" class="form-control" required maxlength="30" value="<?php echo $member['Member_phone'] ?>">
                             </div>
+                            <div class="form-group form-inline">
+                                <span class="mr-auto"> รวมเป็นเงิน </span>
+                                <span> <?php echo "฿" . number_format($totalPrice); ?> </span>
+                            </div>
+                            <div class="form-inline">
+                                <span class="mr-auto"> ค่าจัดส่ง </span>
+                                <div class=""> ฿25 </div>
+                            </div>
                             <div class="form-group d-none">
-                                <input type="text" name="totalprice" class="form-control" value="<?php echo $totalPrice; ?>">
+                                <input type="text" name="totalprice" class="form-control" value="<?php echo $totalPriceAddDeliver; ?>">
                                 <textarea name="products" class="form-control"><?php echo $strCarts; ?></textarea>
                             </div>
                             <div class="form-group form-inline">
                                 <span class="mr-auto"> รวมทั้งสิ้น </span>
                                 <span class="total-price price">
-                                    <?php echo "฿" . number_format($totalPrice); ?>
+                                    <?php echo "฿" . number_format($totalPriceAddDeliver); ?>
                                 </span>
                             </div>
                             <button type="submit" name="submit" class="btn btn-block btn-warning"> สั่งซื้อ </button>

@@ -75,7 +75,7 @@ $orders = $orderFn->getOrderByMemberId($member['Member_id']);
                             <?php if ($order['Order_status'] == 'waiting') { ?>
                                 <span class="text-warning"> รอยืนยันการโอน </span>
                             <?php } else if ($order['Order_status'] == 'success') { ?>
-                                <span class="text-success"> สำเร็จ </span>
+                                <span class="text-success"> ยืนยันการโอนแล้ว </span>
                             <?php } ?>
                         </td>
                     </tr>
